@@ -34,7 +34,9 @@
     "koa-static": "^5.0.0",
     "preact": "^8.2.6",
     "preact-compat": "^3.17.0",
-    "preact-router": "^2.5.7"
+    "preact-redux": "^2.0.3",
+    "preact-router": "^2.5.7",
+    "redux": "^4.0.1"
   },
   "jest": {
     "verbose": true,

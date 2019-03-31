@@ -14,9 +14,9 @@ app.use(serve(path.join(__dirname, '/build'), { maxage: 60 * 60 * 24 * 30 }));
 const router = koaRouter();
 const RGX = /<div id="app"[^>]*>.*?(?=<script)/i;
 const template = readFileSync('build/index.html', 'utf8');
-router.get('*', function page() {
-	const body = render(h(bundle.default, { url: this.url }));
-	this.body = template.replace(RGX, body);
+router.get('*', async (ctx) => {
+	const body = render(h(bundle.default, { url: ctx.url }));
+	ctx.body = await template.replace(RGX, body);
 });
 
 app.use(router.routes());
