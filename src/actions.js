@@ -1,7 +1,7 @@
-export function addTodo(text) {
+export function addDemolist(list) {
 	return {
-		type: 'ADD_TODO',
-		text
+		type: 'ADD_DEMO',
+		list
 	};
 }
 

@@ -7,16 +7,20 @@ const koaRouter = require('koa-router');
 const render = require('preact-render-to-string');
 const { h } = require('preact');
 const bundle = require('./build/ssr-build/ssr-bundle');
+const bootstrapper = require('react-async-bootstrapper');
 
 const app = new koa();
 app.proxy = true;
-app.use(serve(path.join(__dirname, '/build'), { maxage: 60 * 60 * 24 * 30 }));
+app.use(serve(path.join(__dirname, '/build'), { maxage: 60 * 60 * 24 * 30, extensions: ['js', 'css'], index: 'home.html' }));
 const router = koaRouter();
 const RGX = /<div id="app"[^>]*>.*?(?=<script)/i;
 const template = readFileSync('build/index.html', 'utf8');
 router.get('*', async (ctx) => {
-	const body = render(h(bundle.default, { url: ctx.url }));
-	ctx.body = await template.replace(RGX, body);
+	const vNode = h(bundle.default, { url: ctx.url });
+	await bootstrapper(vNode).then(() => {
+		const body = render(vNode);
+		ctx.body = template.replace(RGX, body);
+	}).catch(err => console.log('Eek, error!', err));
 });
 
 app.use(router.routes());

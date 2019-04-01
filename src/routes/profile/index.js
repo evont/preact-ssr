@@ -1,49 +1,34 @@
+/* eslint-disable react/no-danger */
+/* eslint-disable react/sort-comp */
 import { h, Component } from 'preact';
 import style from './style';
+import { connect } from 'preact-redux';
+import reduce from '../../reducer';
+import * as actions from '../../actions';
 import setTitle from '../../util/deco';
-
+import axios from 'axios';
 @setTitle('资料')
+@connect(reduce, actions)
 export default class Profile extends Component {
-	state = {
-		time: Date.now(),
-		count: 10
-	};
-
-	// update the current time
-	updateTime = () => {
-		this.setState({ time: Date.now() });
-	};
-
-	increment = () => {
-		this.setState({ count: this.state.count+1 });
-	};
-
-	// gets called when this route is navigated to
 	componentDidMount() {
-		// start a timer for the clock:
-		this.timer = setInterval(this.updateTime, 1000);
+		const initData = window.__initData__;
+		this.props.addDemolist(initData);
+		// this.setState({
+		// 	demoList: initData,
+		// })
 	}
-
-	// gets called just before navigating away from the route
-	componentWillUnmount() {
-		clearInterval(this.timer);
+	bootstrap() {
+		return axios.get(`https://api.coinmarketcap.com/v1/ticker/?limit=10`)
+			.then(res => res.data)
+			.then(json => this.props.addDemolist(json));
 	}
-
-	// Note: `user` comes from the URL, courtesy of our router
-	render({ user }, { time, count }) {
-		return (
-			<div class={style.profile}>
-				<h1>Profile: {user}</h1>
-				<p>This is the user profile for a user named { user }.</p>
-
-				<div>Current time: {new Date(time).toLocaleString()}</div>
-
-				<p>
-					<button onClick={this.increment}>Click Me</button>
-					{' '}
-					Clicked {count} times.
-				</p>
-			</div>
+	render({ demolist }) {
+		const insertScript = demolist.length ? `<script>window.__initData__ = ${JSON.stringify(demolist)}</script>` : '';
+		return (<div class={style.profile}>
+			<h1>Profile</h1>
+			<div dangerouslySetInnerHTML={{ __html: insertScript }} />
+			{ demolist.map(ele => ( <p>{ ele.name }</p>)) }
+		</div>
 		);
 	}
 }

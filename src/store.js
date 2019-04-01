@@ -1,11 +1,8 @@
 import { createStore } from 'redux';
 
 let ACTIONS = {
-	ADD_TODO: ({ todos, ...state }, { text }) => ({
-		todos: [...todos, {
-			id: Math.random().toString(36).substring(2),
-			text
-		}],
+	ADD_DEMO: ({ demolist, ...state }, { list }) => ({
+		demolist: list,
 		...state
 	}),
 
@@ -16,6 +13,7 @@ let ACTIONS = {
 };
 
 const INITIAL = {
+	demolist: [],
 	todos: []
 };
 
