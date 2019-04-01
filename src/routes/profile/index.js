@@ -12,10 +12,12 @@ import axios from 'axios';
 export default class Profile extends Component {
 	componentDidMount() {
 		const initData = window.__initData__;
-		this.props.addDemolist(initData);
-		// this.setState({
-		// 	demoList: initData,
-		// })
+		if (initData) {
+			this.props.addDemolist(initData);
+		}
+		else {
+			this.bootstrap();
+		}
 	}
 	bootstrap() {
 		return axios.get(`https://api.coinmarketcap.com/v1/ticker/?limit=10`)
