@@ -1,5 +1,5 @@
 /* eslint-disable require-yield */
-const koa = require('koa');
+const Koa = require('koa');
 const path = require('path');
 const { readFileSync } = require('fs');
 const serve = require('koa-static');
@@ -9,7 +9,7 @@ const { h } = require('preact');
 const bundle = require('./build/ssr-build/ssr-bundle');
 const bootstrapper = require('react-async-bootstrapper');
 
-const app = new koa();
+const app = new Koa();
 app.proxy = true;
 app.use(serve(path.join(__dirname, '/build'), { maxage: 60 * 60 * 24 * 30, extensions: ['js', 'css'], index: 'home.html' }));
 const router = koaRouter();

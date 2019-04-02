@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "per-env",
+    "start": "node server.js",
     "start:production": "npm run -s serve",
     "start:development": "npm run -s dev",
     "build": "preact build --template template.html",
@@ -31,6 +31,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "koa": "^2.7.0",
+    "koa-body": "^1.6.0",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "preact": "^8.2.6",

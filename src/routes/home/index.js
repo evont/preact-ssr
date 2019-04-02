@@ -23,7 +23,7 @@ export default class Home extends Component {
 	}
 	render({}, { demoList }) {
 		return (<div class={style.home}>
-			<h1>放假都是咖啡机克拉的肌肤拉开</h1>
+			<h1>test</h1>
 			{ demoList.map(ele => ( <p>{ ele.name }</p>)) }
 		</div>
 		);
